@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class GameFragment extends Fragment {
 
-  private static final String INVALID_CHAR_PATTERN = String.format("[^%s]", MainViewModel.POOL);
-
   private Map<Character, Integer> colorValueMap;
   private Map<Character, String> colorLabelMap;
   private Character[] codeCharacters;
@@ -116,6 +114,7 @@ public class GameFragment extends Fragment {
     //noinspection ConstantConditions
     adapter = new GuessAdapter(activity, colorValueMap, colorLabelMap);
     viewModel = new ViewModelProvider(activity).get(MainViewModel.class);
+    getLifecycle().addObserver(viewModel);
     LifecycleOwner lifecycleOwner = getViewLifecycleOwner();
     viewModel.getGame().observe(lifecycleOwner, this::updateGameDisplay);
     viewModel.getSolved().observe(lifecycleOwner, solved ->
